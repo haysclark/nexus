@@ -78,7 +78,8 @@ export async function createTestContext(opts?: CreateTestContextOptions): Promis
   // todo figure out some caching system here, e.g. imagine jest --watch mode
   const layout = rightOrFatal(await Layout.create({ entrypointPath: opts?.entrypointPath, projectRoot: opts?.projectRoot }))
   const pluginManifests = await PluginWorktime.getUsedPlugins(layout)
-  const randomPort = await getPort({ port: getPort.makeRange(4000, 6000) })
+  const randomStartPort = Math.floor(Math.random() * (6000 - 4000)) + 4000
+  const randomPort = await getPort({ port: getPort.makeRange(randomStartPort, 6000) })
   const privateApp = app as PrivateApp
 
   const forcedServerSettings = {
